@@ -1,0 +1,13 @@
+{
+  "name": "LocalStack Python Dev",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/bash"
+  },
+  "postCreateCommand": "pip install -r requirements.txt",
+  "postStartCommand": "localstack start -d",
+  "forwardPorts": [4566],
+  "remoteUser": "root"
+}
