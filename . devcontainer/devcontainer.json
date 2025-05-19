@@ -1,41 +1,12 @@
 {
-    "build": {
-        "dockerfile": "build/Dockerfile",
-        "context": "build",
-        "args": {
-            // Change the BASE_IMAGE to the codespaces image for your tech stack.
-            // N.b. only debian-based images are supported.
-            // Microsoft have a number of pre-defined images here: https://hub.docker.com/_/microsoft-vscode-devcontainers
-            "BASE_IMAGE": "mcr.microsoft.com/vscode/devcontainers/universal:linux"
-        }
-    },
-    "name": "localstack-and-codespaces",
-    "mounts": [
-        // mount the docker socket so that we can use the docker CLI to start localstack
-        "source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind"
-    ],
-    
-    "forwardPorts": [
-        // forward the localstack ports
-        4566,
-        4571,
-        // add ports that your application uses here
-        // e.g.
-        //3000,
-        //8080,
-        //8443,
-    ],
-    "postStartCommand": [
-        // Run localstack in a background docker container when the codespace starts
-        // "sudo", // uncomment sudo if not running as root
-        "docker", "run", "--init", "--rm", "-d", "--env-file=.devcontainer/localstack.env", "-p=4566:4566", "-p=4571:4571", "--mount", "source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind", "localstack/localstack:latest"
-    ],
-    "shutdownAction": "stopContainer",
-    "containerEnv": {
-        // uncomment to set aws default config in the codespace
-        // n.b. these values are not applied inside the localstack container. To set env values for the localstack container edit the .devcontainer/localstack.env file
-        //"AWS_DEFAULT_REGION": "us-east-1",
-        //"AWS_ACCESS_KEY_ID": "test",
-        //"AWS_SECRET_ACCESS_KEY": "test",
-    }
+  "name": "LocalStack Python Dev",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/bash"
+  },
+  "postStartCommand": "localstack start -d",
+  "forwardPorts": [4566],
+  "remoteUser": "root"
 }
